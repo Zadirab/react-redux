@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
   const dispath = useDispatch();
   const cash = useSelector((state) => state.cash.cash);
-  const customers = useSelector((state) => state.customers.customers);
+  const customers = useSelector((state) => state.customer.customers);
 
   const addCash = (cash) => {
     dispath({ type: "ADD_CASH", payload: cash });
