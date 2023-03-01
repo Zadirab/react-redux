@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
   const dispath = useDispatch();
   const cash = useSelector((state) => state.cash.cash);
-  const customers = useSelector((state) => state.customers.customer);
+  const customers = useSelector((state) => state.customers.customers);
 
   const addCash = (cash) => {
     dispath({ type: "ADD_CASH", payload: cash });
@@ -23,13 +23,13 @@ function App() {
   };
 
   const removeCustomer = (customer) => {
-    dispath({ type: "REMOVE_CUSTOMERS", payload: customer.id });
+    dispath({ type: "REMOVE_CUSTOMERS", payload: customer });
   };
 
   return (
     <div className={"app"}>
-      <div style={{ fontSize: "18px", color: "blue" }}>{cash}</div>
-      <div style={{ display: "flex" }}>
+      <div><div style={{ fontSize: "18px", color: "blue" }}>{cash}</div></div>
+      <div className="cash" style={{ display: "flex" }}>
         <button onClick={() => addCash(Number(prompt()))}>
           Пополнить счет
         </button>
@@ -37,14 +37,11 @@ function App() {
           Снять со счета
         </button>
         <button onClick={() => addCustomer(prompt())}>Добавить клиента</button>
-        <button onClick={() => removeCustomer(customers)}>
-          Удалить клиента
-        </button>
       </div>
-      {customers.length > 0 ? (
+      {customers && customers.length > 0 ? (
         <div>
           {customers.map((customer) => (
-            <div>{customer.name}</div>
+            <div onClick={() => removeCustomer(customer.id)}>{customer.name}, {customer.id}</div>
           ))}
         </div>
       ) : (
