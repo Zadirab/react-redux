@@ -1,5 +1,6 @@
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
+import { addCustomerAction, removeCustomerAction } from "./store/customerReduser";
 
 function App() {
   const dispath = useDispatch();
@@ -19,11 +20,11 @@ function App() {
       name,
       id: Date.now(),
     };
-    dispath({ type: "ADD_CUSTOMER", payload: customer });
+    dispath(addCustomerAction(customer));
   };
 
   const removeCustomer = (customer) => {
-    dispath({ type: "REMOVE_CUSTOMERS", payload: customer });
+    dispath(removeCustomerAction(customer.id));
   };
 
   return (
@@ -37,17 +38,27 @@ function App() {
           Снять со счета
         </button>
         <button onClick={() => addCustomer(prompt())}>Добавить клиента</button>
+        <button onClick={() => removeCustomer(prompt())}>Удалить клиента</button>
       </div>
-      {customers && customers.length > 0 ? (
+      {customers.length > 0 ?
         <div>
-          {customers.map((customer) => (
-            <div onClick={() => removeCustomer(customer.id)}>{customer.name}, {customer.id}</div>
-          ))}
+          {
+            customers.map(customer => (
+              <div onClick={() => removeCustomer(customer)} 
+              style={{ fontSize: "1rem",
+               border: '1px solid black',
+               padding: "10px", 
+               marginTop: 5 }}>
+                {customer.name}
+              </div>
+            ))
+          }
         </div>
-      ) : (
+        :
         <div style={{ fontSize: "2 rem" }}>Клиентов нет!</div>
-      )}
-    </div>
+
+      }
+    </div >
   );
 }
 
